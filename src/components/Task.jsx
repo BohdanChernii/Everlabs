@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Route, Routes, Link } from 'react-router-dom';
+import { Route, Routes, Link, Outlet } from 'react-router-dom';
 const Task = ({
   id,
   done,
@@ -37,19 +37,8 @@ const Task = ({
           update Task
         </button>
         {updateInput ? (
-          <div
-            className="modal"
-            style={{
-              position: 'absolute',
-              width: '100vw',
-              height: '100vh',
-              top: '0',
-              left: '0',
-              backgroundColor: '#000',
-              opacity: '0.7',
-            }}
-          >
-            <form style={{ margin: '35%', display: 'flex' }}>
+          <div className="modal">
+            <form className="modal__form">
               <input
                 type="text"
                 placeholder="update your text"
