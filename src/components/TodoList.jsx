@@ -13,13 +13,28 @@ const TodoList = () => {
     fetchTaskList().then((res) => setTaskList(res));
   }, []);
 
-  const onCreate = (text) => {
+  const onCreate = async (text) => {
     const newTask = {
       text,
       done: false,
     };
     console.log(newTask);
-    createTask(newTask).then(() => fetchTaskList);
+    await createTask(newTask);
+    await fetchTaskList().then((res) => setTaskList(res));
+  };
+
+  const handleDeleteTask = (id) => {
+    deleteTask(id)
+      .then(() => fetchTaskList())
+      .then(() => document.location.reload());
+  };
+  const handleTaskStatusChange = (id) => {
+    const { done, text } = taskList.find((task) => task.id === id);
+    const updatedTask = {
+      text,
+      done: !done,
+    };
+    updateTask(id, updatedTask).then(() => fetchTaskList());
   };
   return (
     <div className="todoList">
@@ -39,12 +54,20 @@ const TodoList = () => {
                 {' '}
                 {item.text}
               </p>
-              {!item.done ? (
-                <button className="finished" onClick={() => setDone(!done)}>
-                  Finished?
-                </button>
-              ) : null}
-              <button className="delete">+</button>
+
+              <input
+                type="checkbox"
+                className="finished"
+                defaultChecked={item.done}
+                onChange={() => handleTaskStatusChange(item.id)}
+              />
+
+              <button
+                className="delete"
+                onClick={() => handleDeleteTask(item.id)}
+              >
+                +
+              </button>
             </li>
           ))}
       </ul>

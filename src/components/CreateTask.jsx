@@ -5,10 +5,10 @@ const CreateTaskInput = ({ onCreate }) => {
   const handleChange = (e) => {
     setTaskText(e.target.value);
   };
-  const handleCreateTask = () => {
+  const handleCreateTask = (e) => {
+    e.preventDefault();
     onCreate(taskText);
   };
-  console.log(taskText);
 
   return (
     <form className="todoList__form">
@@ -20,7 +20,7 @@ const CreateTaskInput = ({ onCreate }) => {
       />
       <button
         className="todoList__form-createTaskButton"
-        onClick={() => handleCreateTask()}
+        onClick={(e) => handleCreateTask(e)}
       >
         Create
       </button>
