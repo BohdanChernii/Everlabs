@@ -7,6 +7,7 @@ import {
   deleteTask,
   updateTask,
 } from './todogateway';
+import Task from './Task';
 const TodoList = () => {
   const [taskList, setTaskList] = useState([]);
   useEffect(() => {
@@ -18,7 +19,6 @@ const TodoList = () => {
       text,
       done: false,
     };
-    console.log(newTask);
     await createTask(newTask);
     await fetchTaskList().then((res) => setTaskList(res));
   };
@@ -36,6 +36,16 @@ const TodoList = () => {
     };
     updateTask(id, updatedTask).then(() => fetchTaskList());
   };
+
+  const handleTaskTextChange = (id, newText) => {
+    const { done, text } = taskList.find((task) => task.id === id);
+    const updatedTask = {
+      text: newText,
+      done,
+    };
+    updateTask(id, updatedTask).then(() => fetchTaskList());
+  };
+
   return (
     <div className="todoList">
       <CreateTask onCreate={onCreate} />
@@ -43,32 +53,13 @@ const TodoList = () => {
         {taskList
           .sort((x, y) => x.done - y.done)
           .map((item) => (
-            <li key={item.id} className="todoList__list-item">
-              <p
-                className={
-                  !item.done
-                    ? 'todoList__list-item text '
-                    : 'todoList__list-item text done'
-                }
-              >
-                {' '}
-                {item.text}
-              </p>
-
-              <input
-                type="checkbox"
-                className="finished"
-                defaultChecked={item.done}
-                onChange={() => handleTaskStatusChange(item.id)}
-              />
-
-              <button
-                className="delete"
-                onClick={() => handleDeleteTask(item.id)}
-              >
-                +
-              </button>
-            </li>
+            <Task
+              key={item.id}
+              {...item}
+              handleTaskStatusChange={handleTaskStatusChange}
+              handleDeleteTask={handleDeleteTask}
+              handleTaskTextChange={handleTaskTextChange}
+            />
           ))}
       </ul>
     </div>

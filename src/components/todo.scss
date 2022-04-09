@@ -1,14 +1,14 @@
 .todoList {
   &__list {
     padding: 0;
-    margin-left: 10%;
+    margin: 0%;
     &-item {
       display: flex;
       list-style: none;
-      width: 300px;
+      width: 500px;
 
       .text {
-        line-height: 30px;
+        line-height: 50px;
         font-size: 20px;
         margin: 0;
       }
@@ -20,10 +20,13 @@
         margin: auto 0 auto auto;
         border: none;
         cursor: pointer;
-        transform: rotate(45deg);
+        background-color: #fff;
       }
     }
   }
+}
+.updateTask {
+  width: 200px;
 }
 .finished {
   margin: 5% 5%;
